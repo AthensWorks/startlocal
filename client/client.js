@@ -6,4 +6,9 @@ if (Meteor.isClient) {
     return Posts.find().fetch();
   };
 
+  upNow = function (){
+  	var postId = this.parent.id; 	// not right
+  	var userId = Meteor.user()._id;
+  	Meteor.call("upvote",postId,userId);
+  }
 }
