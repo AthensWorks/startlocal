@@ -1,0 +1,32 @@
+<head>
+  <title>startlocal</title>
+</head>
+
+<body>
+ {{loginButtons}}
+
+  {{> post_list}}
+</body>
+
+<template name="post_list">
+  <h1>Posts</h1>
+  {{#each posts}}
+    {{> post}}
+  {{else}}
+    No posts yet.
+  {{/each}}
+</template>
+
+<template name="post">
+  <div id="{{_id}}" class="post">
+     <a href="{{url}}" target="_new">{{name}}</a>
+     {{upvote_button}}
+     <div class="description">
+       {{description}} - {{category}}
+     </div>
+     {{flag_button}}
+     <div class="updated_at">
+       Last updated at {{updatedAt}}
+     </div>
+  </div>
+</template>
