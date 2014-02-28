@@ -6,4 +6,9 @@ if (Meteor.isServer) {
       }
     });
   });
+
+  Meteor.publish("posts", function () {
+    return Posts.find({ $where: "this.flaggedBy.length < 5" });
+  });
+
 }
