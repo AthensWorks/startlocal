@@ -18,7 +18,7 @@ Meteor.subscribe("posts");
 
 /// templating functions
 Template.postlist.posts = function () {
-	return Posts.find().fetch();
+	return Posts.find({}, {sort: {timestamp:1}});
 };
 
 Template.page.showCreateDialog = function () {
@@ -57,10 +57,6 @@ Template.createDialog.events({
 	}
 });
 
-Template.postlist.posts = function () {
-	return Posts.find({}, {sort: {score: -1, name: 1}});
-};
-
 Template.postlist.selected_name = function () {
 	var post = Posts.findOne(Session.get("selected_post"));
 	return post && post.name;
@@ -76,24 +72,26 @@ Template.postlist.events({
 	}
 });
 
-Template.post.events({
-	'click': function () {
-		Session.set("selected_post", this._id);
+// Template.post.events({
+// 	'click': function () {
+// 		Session.set("selected_post", this._id);
+// 	}
+// });
+
+Template.upvote_button.events({
+	'click .upvote': function(){
+		var postId = this._id;
+		var userId = Meteor.user()._id;
+
+		Meteor.call("upvote", postId, userId);
 	}
 });
+	
+Template.flag_button.events({
+	'click .flag': function(){
+		var postId = this._id;
+		var userId = Meteor.user()._id;
 
-$(function(){
-  $('body').on('click', 'a.upvote', function(){
-    var postId = $(this).data('id');
-    var userId = Meteor.user()._id;
-
-    Meteor.call("upvote", postId, userId);
-  });
-
-	$('body').on('click', 'a.flag', function(){
-    var postId = $(this).data('id');
-    var userId = Meteor.user()._id;
-
-    Meteor.call("flag", postId, userId);
-  });
-})
+		Meteor.call("flag", postId, userId);
+	}
+});

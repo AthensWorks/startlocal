@@ -28,10 +28,8 @@
 		{{> createDialog}}
 	{{/if}}
 
-	<div class="span10">
-		<div style="float: right">
+	<div class="login">
 		{{loginButtons align="right"}}
-		</div>
 	</div>
 
 	<div id="header">
@@ -57,13 +55,17 @@
 
 <template name="post">
 	<div class="post {{selected}}">
-		<div class="upvote">
-		<span class="upvotecount">{{upvotedBy.length}}</span>
+		<div class="upvotearea">
+			<div class="upvotecount">{{upvotedBy.length}}</div>
+			{{> upvote_button}}
+		</div>
+		<div class="flagarea">
+			{{> flag_button}}
 		</div>
 		<div>
-			<span class="name"><a href="{{url}}" target="_new">{{name}}</a></span>
-			<br/>
-			<span class="description">{{description}}</span>
+			<div class="name"><a href="{{url}}" target="_new">{{name}}</a></div>
+			<div class="description">{{description}}</div>
+			<div class="updated_at">Updated: {{updatedAt}}</div>
 		</div>
 	</div>
 </template>

@@ -22,6 +22,11 @@ body {
     margin: 0 auto;  
 }
 
+.login {
+	position:absolute;
+	right:0px;
+	margin-right: 50px;
+}
 .post {
     cursor: pointer;
     padding: 5px;
@@ -36,8 +41,18 @@ body {
     font-size: 1.75em;
 }
 
-.post .upvote {
+.post .upvotearea {
 	float: left;
+	height: 70px;
+	margin-left: 5px;
+	margin-right: 10px;
+}
+
+.post .flagarea {
+	float: right;
+	height: 70px;
+	margin-left: 5px;
+	margin-right: 10px;
 }
 
 .post .upvotecount {
@@ -48,17 +63,13 @@ body {
     font-weight: bold;
 }
 
+.post .updated_at {
+    display: inline-block;
+}
+
 .post.selected {
     color: white;
     background-color: black;
-}
-
-.post.selected .score {
-    color: white;
-}
-.post.selected.age{
-    color: red;
-    border: 1px red solid;
 }
 
 .details, .none {
@@ -103,10 +114,6 @@ body {
 }
 
 .description {
-    margin: 20px 0 20px 0;
-}
-
-.attendance .who {
     margin-bottom: 5px;
 }
 
