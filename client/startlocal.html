@@ -6,14 +6,6 @@
 {{> page }}
 </body>
 
-<template name="post_list">
-  <h1>Posts</h1>
-  {{#each posts}}
-    {{> post}}
-  {{else}}
-    No posts yet.
-  {{/each}}
-</template>
 
 <!-- 
 <template name="post">
@@ -33,7 +25,7 @@
 
 <template name="page">
 	{{#if showCreateDialog}}
-	{{> createDialog}}
+		{{> createDialog}}
 	{{/if}}
 
 	<div class="span5">
@@ -52,6 +44,17 @@
 
 	{{> addButton }}
 </template>
+
+<!-- 
+<template name="post_list">
+  <h1>Posts</h1>
+  {{#each posts}}
+    {{> post}}
+  {{else}}
+    No posts yet.
+  {{/each}}
+</template>
+ -->
 
 <template name="postlist">
 	<div class="postlist">
@@ -81,6 +84,7 @@
 </template>
 
 <template name="createDialog">
+	<div class="mask"> </div>
 	<div class="modal">
 		<div class="modal-header">
 			<button type="button" class="close cancel">&times;</button>
@@ -89,7 +93,7 @@
 		
 		<div class="modal-body">
 			{{#if error}}
-			<div class="alert alert-error">{{error}}</div>
+				<div class="alert alert-error">{{error}}</div>
 			{{/if}}
 			
 			<label>Title</label>
@@ -112,7 +116,6 @@
 			<a href="#" class="btn btn-primary save">Add Resource</a>
 		</div>
 	</div>
-	<div class="mask"> </div>
 </template>
 
 <template name="addButton">

@@ -17,7 +17,7 @@ var openCreateDialog = function (x, y) {
 Meteor.subscribe("posts");
 
 /// templating functions
-Template.post_list.posts = function () {
+Template.postlist.posts = function () {
 	return Posts.find().fetch();
 };
 
