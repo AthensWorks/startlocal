@@ -36,13 +36,16 @@ body {
     font-size: 1.75em;
 }
 
+.post .upvote {
+	float: left;
+}
+
 .post .upvotecount {
     display: inline-block;
     width: 30px;
     text-align: right;
     font-size: 2em;
     font-weight: bold;
-    color: #000;
 }
 
 .post.selected {

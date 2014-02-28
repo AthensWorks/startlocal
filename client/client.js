@@ -36,24 +36,19 @@ Template.createDialog.events({
   'click .save': function (event, template) {
     var name = template.find(".name").value;
     var description = template.find(".description").value;
-//     var public = ! template.find(".private").checked;
-    var coords = Session.get("createCoords");
+    var url = template.find(".url").value;
 
-    if (name.length && description.length) {
-      var id = createParty({
+    if (name.length && description.length && url.length) {
+      var id = createPost({
         name: name,
         description: description,
-        x: coords.x,
-        y: coords.y,
-        public: public
+        url: url
       });
 
       Session.set("selected", id);
-      if (! public && Meteor.users.find().count() > 1)
-        openInviteDialog();
       Session.set("showCreateDialog", false);
     } else {
-      Session.set("createError", "It needs a name and a description, or why bother?");
+      Session.set("createError", "It needs a name, a description and a URL—or why bother?");
     }
   },
 

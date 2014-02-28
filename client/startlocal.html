@@ -28,7 +28,7 @@
 		{{> createDialog}}
 	{{/if}}
 
-	<div class="span5">
+	<div class="span10">
 		<div style="float: right">
 		{{loginButtons align="right"}}
 		</div>
@@ -45,17 +45,6 @@
 	{{> addButton }}
 </template>
 
-<!-- 
-<template name="post_list">
-  <h1>Posts</h1>
-  {{#each posts}}
-    {{> post}}
-  {{else}}
-    No posts yet.
-  {{/each}}
-</template>
- -->
-
 <template name="postlist">
 	<div class="postlist">
 		{{#each posts}}
@@ -64,22 +53,18 @@
 			No posts yet.
 		{{/each}}
 	</div>
-
-	{{#if selected_name}}
-		<div class="details">
-			<div class="name">{{selected_name}}</div>
-			<input type="button" class="inc" value="Give 5 points" />
-		</div>
-	{{else}}
-		<div class="none">Click a post to select</div>
-	{{/if}}
 </template>
 
 <template name="post">
 	<div class="post {{selected}}">
-		<span class="name">{{name}}</span>
-		<span class="age">{{name}}</span>
+		<div class="upvote">
 		<span class="upvotecount">{{upvotedBy.length}}</span>
+		</div>
+		<div>
+			<span class="name"><a href="{{url}}" target="_new">{{name}}</a></span>
+			<br/>
+			<span class="description">{{description}}</span>
+		</div>
 	</div>
 </template>
 
@@ -96,21 +81,23 @@
 				<div class="alert alert-error">{{error}}</div>
 			{{/if}}
 			
-			<label>Title</label>
-			<input type="text" class="title span5">
+			<label>Name</label>
+			<input type="text" class="name span5">
 				
 				<label>Description</label>
-				<textarea class="description span5"></textarea>
+				<textarea class="description span5" maxlength="140"></textarea>
 
 				<label>Link</label>
-				<input type="text" class="URL span5">
+				<input type="text" class="url span5">
 				
+<!-- 
 				<label>Category</label>
 				<select>
 					{{#each category}}
 						<option value="{{name}}">{{name}}</option>
 					{{/each}}
 				 </select>
+ -->
 		<div class="modal-footer">
 			<a href="#" class="btn cancel">Cancel</a>
 			<a href="#" class="btn btn-primary save">Add Resource</a>
