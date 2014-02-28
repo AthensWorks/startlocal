@@ -1,0 +1,28 @@
+<head>
+  <title>startlocal</title>
+</head>
+
+<body>
+  {{> post_list}}
+</body>
+
+<template name="post_list">
+  <h1>Posts</h1>
+  {{#each posts}}
+    {{> post}}
+  {{else}}
+    No posts yet.
+  {{/each}}
+</template>
+
+<template name="post">
+  <li class="post">
+    <a href="{{url}}" target="_new">{{name}}</a>
+    Description: {{description}}<br/>
+    flaggedBy: {{flaggedBy}}<br/>
+    upvotedBy: {{upvotedBy}}<br/>
+    postedBy:  {{postedBy}}<br/>
+    createdAt: {{createdAt}}<br/>
+    updatedAt: {{updatedAt}}<br/>
+  </li>
+</template>
