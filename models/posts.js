@@ -1,5 +1,5 @@
 Posts = new Meteor.Collection("posts");
-
+// Hacknight is awesoooome!
 Posts.allow({
   insert: function (userId, post) {
     return false; // no cowboy inserts -- use createParty method
