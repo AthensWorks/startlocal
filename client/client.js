@@ -81,3 +81,19 @@ Template.post.events({
 		Session.set("selected_post", this._id);
 	}
 });
+
+$(function(){
+  $('body').on('click', 'a.upvote', function(){
+    var postId = $(this).data('id');
+    var userId = Meteor.user()._id;
+
+    Meteor.call("upvote", postId, userId);
+  });
+
+	$('body').on('click', 'a.flag', function(){
+    var postId = $(this).data('id');
+    var userId = Meteor.user()._id;
+
+    Meteor.call("flag", postId, userId);
+  });
+})

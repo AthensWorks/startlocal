@@ -11,11 +11,11 @@
 <template name="post">
   <div id="{{_id}}" class="post">
      <a href="{{url}}" target="_new">{{name}}</a>
-     {{upvote_button}}
+     {{> upvote_button}}
      <div class="description">
-       {{description}} - {{category}}
+       {{description}} - {{category}} (Votes: {{upvotedBy.length}}, Flagged {{flaggedBy.length}})
      </div>
-     {{flag_button}}
+     {{> flag_button}}
      <div class="updated_at">
        Last updated at {{updatedAt}}
      </div>
@@ -110,4 +110,16 @@
 	<input type="button" value="New Thing!"
 		class="btn btn-small add">
 	</div>
+</template>
+
+<template name="upvote_button">
+  <div>
+    <a href="#" class="upvote" data-id="{{_id}}">upvote</a>
+  </div>
+</template>
+
+<template name="flag_button">
+  <div>
+    <a href="#" class="flag" data-id="{{_id}}">flag</a>
+  </div>
 </template>
