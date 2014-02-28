@@ -9,3 +9,6 @@ accounts-base
 accounts-facebook
 accounts-github
 accounts-ui
+bootstrap
+accounts-password
+accounts-twitter

@@ -3,20 +3,11 @@
 </head>
 
 <body>
- {{loginButtons}}
-
-  {{> post_list}}
+{{> page }}
 </body>
 
-<template name="post_list">
-  <h1>Posts</h1>
-  {{#each posts}}
-    {{> post}}
-  {{else}}
-    No posts yet.
-  {{/each}}
-</template>
 
+<!-- 
 <template name="post">
   <div id="{{_id}}" class="post">
      <a href="{{url}}" target="_new">{{name}}</a>
@@ -29,4 +20,94 @@
        Last updated at {{updatedAt}}
      </div>
   </div>
+</template>
+ -->
+
+<template name="page">
+	{{#if showCreateDialog}}
+		{{> createDialog}}
+	{{/if}}
+
+	<div class="span10">
+		<div style="float: right">
+		{{loginButtons align="right"}}
+		</div>
+	</div>
+
+	<div id="header">
+		<h1>StartLocal</h1>
+	</div>
+
+	<div id="outer">
+		{{> postlist}}
+	</div>
+
+	{{> addButton }}
+</template>
+
+<template name="postlist">
+	<div class="postlist">
+		{{#each posts}}
+			{{> post}}
+		{{else}}
+			No posts yet.
+		{{/each}}
+	</div>
+</template>
+
+<template name="post">
+	<div class="post {{selected}}">
+		<div class="upvote">
+		<span class="upvotecount">{{upvotedBy.length}}</span>
+		</div>
+		<div>
+			<span class="name"><a href="{{url}}" target="_new">{{name}}</a></span>
+			<br/>
+			<span class="description">{{description}}</span>
+		</div>
+	</div>
+</template>
+
+<template name="createDialog">
+	<div class="mask"> </div>
+	<div class="modal">
+		<div class="modal-header">
+			<button type="button" class="close cancel">&times;</button>
+			<h3>Add Resource</h3>
+		</div>
+		
+		<div class="modal-body">
+			{{#if error}}
+				<div class="alert alert-error">{{error}}</div>
+			{{/if}}
+			
+			<label>Name</label>
+			<input type="text" class="name span5">
+				
+				<label>Description</label>
+				<textarea class="description span5" maxlength="140"></textarea>
+
+				<label>Link</label>
+				<input type="text" class="url span5">
+				
+<!-- 
+				<label>Category</label>
+				<select>
+					{{#each category}}
+						<option value="{{name}}">{{name}}</option>
+					{{/each}}
+				 </select>
+ -->
+		<div class="modal-footer">
+			<a href="#" class="btn cancel">Cancel</a>
+			<a href="#" class="btn btn-primary save">Add Resource</a>
+		</div>
+	</div>
+</template>
+
+<template name="addButton">
+	<div>
+	<input type="button" value="New Thing!"
+		class="btn btn-small add">
+	</div>
 </template>
