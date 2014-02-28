@@ -5,10 +5,13 @@ if (Meteor.isClient) {
   Template.post_list.posts = function () {
     return Posts.find().fetch();
   };
-
-  upNow = function (){
-  	var postId = this.parent.id; 	// not right
-  	var userId = Meteor.user()._id;
-  	Meteor.call("upvote",postId,userId);
-  }
 }
+
+$(function(){
+  $('body').on('click', 'a.upvote', function(){
+    var postId = $(this).data('id');
+    var userId = Meteor.user()._id;
+
+    Meteor.call("upvote", postId, userId);
+  });
+})

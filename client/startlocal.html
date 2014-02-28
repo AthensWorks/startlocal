@@ -20,9 +20,9 @@
 <template name="post">
   <div id="{{_id}}" class="post">
      <a href="{{url}}" target="_new">{{name}}</a>
-     {{upvote_button}}
+     {{> upvote_button}}
      <div class="description">
-       {{description}} - {{category}}
+       {{description}} - {{category}} (Votes: {{upvotedBy.length}}, Flagged {{flaggedBy.length}})
      </div>
      {{flag_button}}
      <div class="updated_at">
@@ -31,9 +31,8 @@
   </div>
 </template>
 
-
 <template name="upvote_button">
   <div>
-    <button name = "upvote" onclick="upNow">upvote</button>
+    <a href="#" class="upvote" data-id="{{_id}}">upvote</a>
   </div>
 </template>
