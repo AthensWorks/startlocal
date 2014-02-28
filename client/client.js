@@ -14,4 +14,11 @@ $(function(){
 
     Meteor.call("upvote", postId, userId);
   });
+
+	$('body').on('click', 'a.flag', function(){
+    var postId = $(this).data('id');
+    var userId = Meteor.user()._id;
+
+    Meteor.call("flag", postId, userId);
+  });
 })

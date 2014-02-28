@@ -24,7 +24,7 @@
      <div class="description">
        {{description}} - {{category}} (Votes: {{upvotedBy.length}}, Flagged {{flaggedBy.length}})
      </div>
-     {{flag_button}}
+     {{> flag_button}}
      <div class="updated_at">
        Last updated at {{updatedAt}}
      </div>
@@ -34,5 +34,11 @@
 <template name="upvote_button">
   <div>
     <a href="#" class="upvote" data-id="{{_id}}">upvote</a>
+  </div>
+</template>
+
+<template name="flag_button">
+  <div>
+    <a href="#" class="flag" data-id="{{_id}}">flag</a>
   </div>
 </template>
