@@ -26,7 +26,14 @@ Meteor.subscribe("posts");
 /// Template functions
 
 Template.postlist.posts = function() {
-  return Posts.find({}, { sort: Session.get('sortOrder') });
+  if (Session.get('sortOrder') == null){
+    Session.set('sortOrderIs', 'most_recent');
+    Session.set('sortOrder', {updatedAt: -1});
+  }
+
+  return Posts.find({}, {
+    sort: Session.get('sortOrder')
+  });
 };
 
 Template.page.showCreateDialog = function() {
@@ -44,7 +51,7 @@ Template.post.selected = function() {
 
 Template.post.categories = function () {
 	if( this.categories.length > 0 ) {
-		return Categories.find({ _id: { $in: this.categories } }, {sort: {name: 1}});		
+		return Categories.find({ _id: { $in: this.categories } }, {sort: {name: 1}});
 	} else {
 		return;
 	}
@@ -65,7 +72,7 @@ Template.createDialog.events({
 		var description = template.find(".description").value;
 		var url = template.find(".url").value;
 		var categories = template.find(".categories").value.split(",");
-	
+
 
 		if (name.length && description.length && url.length) {
 			var postId = createPost({
@@ -74,13 +81,13 @@ Template.createDialog.events({
 				url: url,
 			});
 
-		categories = categories.map(function(s) { 
+		categories = categories.map(function(s) {
 			var categoryId = createCategory({
 				name: s.trim(),
 			});
-			
+
 			Meteor.call('addToPost', categoryId, postId);
-			
+
 			return postId;
 	 });
 
@@ -126,18 +133,29 @@ Template.flag_button.events({
 
 Template.most_recent.events({
   'click .sort': function() {
+    Session.set('sortOrderIs', 'most_recent');
     Session.set('sortOrder', {updatedAt: -1});
   }
 });
 
 Template.most_upvotes.events({
   'click .sort': function() {
+    Session.set('sortOrderIs', 'most_upvotes');
     Session.set('sortOrder', {upvoteCount: -1, updatedAt: -1});
   }
 });
 
 Template.categories.events({
   'click .sort': function() {
+    Session.set('sortOrderIs', 'categories');
     Session.set('sortOrder', {category: -1, upvoteCount: -1, updatedAt: -1});
   }
 });
+
+sortOrderIs = function(order) {
+  return Session.get('sortOrderIs') === order;
+};
+
+Template.most_recent.sortOrderIs = sortOrderIs;
+Template.most_upvotes.sortOrderIs = sortOrderIs;
+Template.categories.sortOrderIs = sortOrderIs;
