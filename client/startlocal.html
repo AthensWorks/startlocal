@@ -129,13 +129,25 @@ Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
 </template>
 
 <template name="most_recent">
-  <a href="#" class="sort">Most Recent</a>
+  {{#if sortOrderIs "most_recent"}}
+    Most Recent
+  {{else}}
+    <a href="#" class="sort">Most Recent</a>
+  {{/if}}
 </template>
 
 <template name="most_upvotes">
-  <a href="#" class="sort">Most Upvotes</a>
+  {{#if sortOrderIs "most_upvotes"}}
+    Most Upvotes
+  {{else}}
+    <a href="#" class="sort">Most Upvotes</a>
+  {{/if}}
 </template>
 
 <template name="categories">
-  <a href="#" class="sort">Categories</a>
+  {{#if sortOrderIs "categories"}}
+    Categories
+  {{else}}
+    <a href="#" class="sort">Categories</a>
+  {{/if}}
 </template>

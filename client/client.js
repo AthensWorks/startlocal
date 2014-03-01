@@ -24,6 +24,11 @@ Meteor.subscribe("posts");
 
 /// templating functions
 Template.postlist.posts = function() {
+  if (Session.get('sortOrder') == null){
+    Session.set('sortOrderIs', 'most_recent');
+    Session.set('sortOrder', {updatedAt: -1});
+  }
+
   return Posts.find({}, {
     sort: Session.get('sortOrder')
   });
@@ -110,18 +115,29 @@ Template.flag_button.events({
 
 Template.most_recent.events({
   'click .sort': function() {
+    Session.set('sortOrderIs', 'most_recent');
     Session.set('sortOrder', {updatedAt: -1});
   }
 });
 
 Template.most_upvotes.events({
   'click .sort': function() {
+    Session.set('sortOrderIs', 'most_upvotes');
     Session.set('sortOrder', {upvoteCount: -1, updatedAt: -1});
   }
 });
 
 Template.categories.events({
   'click .sort': function() {
+    Session.set('sortOrderIs', 'categories');
     Session.set('sortOrder', {category: -1, upvoteCount: -1, updatedAt: -1});
   }
 });
+
+sortOrderIs = function(order) {
+  return Session.get('sortOrderIs') === order;
+};
+
+Template.most_recent.sortOrderIs = sortOrderIs;
+Template.most_upvotes.sortOrderIs = sortOrderIs;
+Template.categories.sortOrderIs = sortOrderIs;
