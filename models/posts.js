@@ -1,5 +1,5 @@
 Posts = new Meteor.Collection("posts");
-// Hacknight is awesoooome!
+
 Posts.allow({
   insert: function (userId, post) {
     return false; // no cowboy inserts -- use createParty method
@@ -8,7 +8,7 @@ Posts.allow({
     if (userId !== post.ownedBy)
       return false; // not the owner
 
-    var allowed = ["name", "url", "description"];
+    var allowed = ["name", "url", "description", "categories"];
     if (_.difference(fields, allowed).length)
       return false; // tried to write to forbidden field
 
@@ -29,7 +29,12 @@ upvoteCount = function (post) {
 
 var NonEmptyString = Match.Where(function (x) {
   check(x, String);
-  return x.length !== 0;
+  return x.length > 0;
+});
+
+var NonEmptyArray = Match.Where(function (x) {
+  check(x, Array);
+  return x.length > 0;
 });
 
 createPost = function (options) {
@@ -67,7 +72,7 @@ Meteor.methods({
       flaggedBy: [],
       flagCount: 0,
       createdAt: Date(),
-      updatedAt: Date()
+      updatedAt: Date(),
     });
     return id;
   },

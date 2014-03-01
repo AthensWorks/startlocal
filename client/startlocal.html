@@ -3,32 +3,15 @@
 </head>
 
 <body>
-
-Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
 {{> page }}
 </body>
-
-
-<!--
-<template name="post">
-  <div id="{{_id}}" class="post">
-     <a href="{{url}}" target="_new">{{name}}</a>
-     {{> upvote_button}}
-     <div class="description">
-       {{description}} - {{category}} (Votes: {{upvotedBy.length}}, Flagged {{flaggedBy.length}})
-     </div>
-     {{> flag_button}}
-     <div class="updated_at">
-       Last updated at {{updatedAt}}
-     </div>
-  </div>
-</template>
- -->
 
 <template name="page">
 	{{#if showCreateDialog}}
 		{{> createDialog}}
 	{{/if}}
+
+	Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
 
 	<div class="login">
 		{{loginButtons align="right"}}
@@ -42,7 +25,11 @@ Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
 		{{> postlist}}
 	</div>
 
-	{{> addButton }}
+	{{#if currentUser}} 
+		{{> addButton }}
+	{{else}}
+		Login to add items and upvote!
+	{{/if}}
 </template>
 
 <template name="postlist">
@@ -59,13 +46,24 @@ Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
 	<div class="post {{selected}}">
 		<div class="upvotearea">
 			<div class="upvotecount">{{upvotedBy.length}}</div>
-			{{> upvote_button}}
+			{{#if currentUser}} 
+				{{> upvote_button}}
+			{{/if}}
 		</div>
 		<div class="flagarea">
 			{{> flag_button}}
 		</div>
 		<div>
+			<div>
 			<div class="name"><a href="{{url}}" target="_new">{{name}}</a></div>
+				{{#if categories}}
+					<div class="categories">
+					{{#each categories}}
+						{{> category}}
+					{{/each}}
+					</div>
+				{{/if}}
+			</div>
 			<div class="description">{{description}}</div>
 			<div class="updated_at">Updated: {{updatedAt}}</div>
 		</div>
@@ -88,19 +86,20 @@ Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
 			<label>Name</label>
 			<input type="text" class="name span5">
 
-				<label>Description</label>
-				<textarea class="description span5" maxlength="140"></textarea>
+			<label>Description</label>
+			<textarea class="description span5" maxlength="140"></textarea>
 
-				<label>Link</label>
-				<input type="text" class="url span5">
+			<label>Link</label>
+			<input type="text" class="url span5">
 
-<!--
-				<label>Category</label>
-				<select>
+			<label>Category</label>
+			<input type="text" class="categories span5"> <br/>(comma separated)
+<!-- maybe add categories from a drop down?
+				<select class="categories span5">
 					{{#each category}}
 						<option value="{{name}}">{{name}}</option>
 					{{/each}}
-				 </select>
+				</select>
  -->
 		<div class="modal-footer">
 			<a href="#" class="btn cancel">Cancel</a>
@@ -109,9 +108,13 @@ Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
 	</div>
 </template>
 
+<template name="category">
+	<div class="category">"{{name}}"</div>
+</template>
+
 <template name="addButton">
 	<div>
-	<input type="button" value="New Thing!"
+	<input type="button" value="Add a Resource"
 		class="btn btn-small add">
 	</div>
 </template>

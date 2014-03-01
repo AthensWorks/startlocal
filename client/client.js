@@ -19,51 +19,19 @@ var openCreateDialog = function(x, y) {
   Session.set("showCreateDialog", true);
 };
 
-/// subscribe
+/// Subscribe
+
 Meteor.subscribe("posts");
 
-/// templating functions
+/// Template functions
+
 Template.postlist.posts = function() {
-  return Posts.find({}, {
-    sort: Session.get('sortOrder')
-  });
+  return Posts.find({}, { sort: Session.get('sortOrder') });
 };
 
 Template.page.showCreateDialog = function() {
   return Session.get("showCreateDialog");
 };
-
-Template.addButton.events({
-  'click .add': function(event, template) {
-    var coords = coordsRelativeToElement(event.currentTarget, event);
-    openCreateDialog(coords.x / 500, coords.y / 500);
-  }
-});
-
-Template.createDialog.events({
-  'click .save': function(event, template) {
-    var name = template.find(".name").value;
-    var description = template.find(".description").value;
-    var url = template.find(".url").value;
-
-    if (name.length && description.length && url.length) {
-      var id = createPost({
-        name: name,
-        description: description,
-        url: url
-      });
-
-      Session.set("selected", id);
-      Session.set("showCreateDialog", false);
-    } else {
-      Session.set("createError", "It needs a name, a description and a URL—or why bother?");
-    }
-  },
-
-  'click .cancel': function() {
-    Session.set("showCreateDialog", false);
-  }
-});
 
 Template.postlist.selected_name = function() {
   var post = Posts.findOne(Session.get("selected_post"));
@@ -74,6 +42,60 @@ Template.post.selected = function() {
   return Session.equals("selected_post", this._id) ? "selected" : '';
 };
 
+Template.post.categories = function () {
+	if( this.categories.length > 0 ) {
+		return Categories.find({ _id: { $in: this.categories } }, {sort: {name: 1}});		
+	} else {
+		return;
+	}
+};
+
+/// Template events
+
+Template.addButton.events({
+  'click .add': function(event, template) {
+    var coords = coordsRelativeToElement(event.currentTarget, event);
+    openCreateDialog(coords.x / 500, coords.y / 500);
+  }
+});
+
+Template.createDialog.events({
+  'click .save': function(event, template) {
+		var name = template.find(".name").value;
+		var description = template.find(".description").value;
+		var url = template.find(".url").value;
+		var categories = template.find(".categories").value.split(",");
+	
+
+		if (name.length && description.length && url.length) {
+			var postId = createPost({
+				name: name,
+				description: description,
+				url: url,
+			});
+
+		categories = categories.map(function(s) { 
+			var categoryId = createCategory({
+				name: s.trim(),
+			});
+			
+			Meteor.call('addToPost', categoryId, postId);
+			
+			return postId;
+	 });
+
+			Session.set("selected", postId);
+			Session.set("showCreateDialog", false);
+		} else {
+			Session.set("createError", "It needs a name, a description and a URL—or why bother?");
+		}
+  },
+
+  'click .cancel': function() {
+    Session.set("showCreateDialog", false);
+  }
+});
+
 Template.postlist.events({
   'click input.inc': function() {
     Posts.update(Session.get("selected_post"), {
@@ -83,12 +105,6 @@ Template.postlist.events({
     });
   }
 });
-
-// Template.post.events({
-// 	'click': function () {
-// 		Session.set("selected_post", this._id);
-// 	}
-// });
 
 Template.upvote_button.events({
   'click .upvote': function() {

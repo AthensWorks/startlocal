@@ -57,14 +57,20 @@ body {
 
 .post .upvotecount {
     display: inline-block;
-    width: 30px;
     text-align: right;
     font-size: 2em;
     font-weight: bold;
+	margin: 10px;
+	vertical-align: middle;
 }
 
 .post .updated_at {
     display: inline-block;
+}
+
+.post .category {
+    display: inline-block;
+	float: right;
 }
 
 .post.selected {
