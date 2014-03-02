@@ -10,5 +10,9 @@ if (Meteor.isServer) {
   Meteor.publish("posts", function () {
     return Posts.find({ flagCount: { $lt: 5 } });
   });
+  
+  Meteor.publish("categories", function () {
+    return Categories.find({});
+  });
 
 }

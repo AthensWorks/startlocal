@@ -22,7 +22,7 @@ var openCreateDialog = function(x, y) {
 /// Subscribe
 
 Meteor.subscribe("posts");
-
+Meteor.subscribe("categories");
 /// Template functions
 
 Template.postlist.posts = function() {
@@ -50,9 +50,12 @@ Template.post.selected = function() {
 };
 
 Template.post.categories = function () {
-	if( this.categories.length > 0 ) {
-		return Categories.find({ _id: { $in: this.categories } }, {sort: {name: 1}});
+  //read all categories.posts ids and return categories matching to this posts' id  
+  cats = Categories.find({posts: this._id});
+  if(cats.count() > 0){
+    return cats;
 	} else {
+    // console.log("Found no Categories for the post: "+this._id);
 		return;
 	}
 };
@@ -81,19 +84,20 @@ Template.createDialog.events({
 				url: url,
 			});
 
-		categories = categories.map(function(s) {
-			var categoryId = createCategory({
-				name: s.trim(),
-			});
 
-			Meteor.call('addToPost', categoryId, postId);
+		  categories = categories.map(function(s) {
+  			var categoryId = createCategory({
+  				name: s.trim(),
+  			});
 
-			return postId;
-	 });
+        addCategoryToPost(categoryId,postId);
+  			return postId;
+	   });
 
 			Session.set("selected", postId);
 			Session.set("showCreateDialog", false);
-		} else {
+		}
+    else {
 			Session.set("createError", "It needs a name, a description and a URL—or why bother?");
 		}
   },

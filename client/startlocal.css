@@ -69,6 +69,8 @@ body {
 }
 
 .post .category {
+    font-weight: bold;
+    font-size: 2em;
     display: inline-block;
 	float: right;
 }

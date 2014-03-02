@@ -35,9 +35,25 @@ var NonEmptyArray = Match.Where(function (x) {
 
 createCategory = function (options) {
   var id = Random.id();
-  Meteor.call('createCategory', _.extend({ _id: id }, options));
+  Meteor.call('createCategory',_.extend({_id: id},options));
   return id;
 };
+
+// checks to see if a category with the same already exists
+//  true if exists, false if not exists
+checkCategoryExistance = function (newCategoryName) {
+  cats = Categories.find({name: newCategoryName});
+  return (cats.count()>0);
+}
+
+getCategoryExistanceId = function (newCategoryName) {
+  return Categories.find({name: newCategoryName}).fetch()[0]._id;
+}
+
+addCategoryToPost = function (categoryId, postId) {
+  Meteor.call('addToPost',categoryId, postId);
+}
+
 
 Meteor.methods({
   // options should include: name
@@ -50,19 +66,20 @@ Meteor.methods({
 
     if (options.name.length > 64)
       throw new Meteor.Error(413, "Name too long");
-   if (! this.userId)
+    if (! this.userId)
       throw new Meteor.Error(403, "You must be logged in");
 
-    var id = options._id || Random.id();
-    Categories.insert({
-      _id: id,
-      ownedBy: this.userId,
-      name: options.name,
-      createdAt: Date(),
-      updatedAt: Date(),
-      posts: options.posts
-    });
-    return id;
+      var id = options._id || Random.id();
+      Categories.insert({
+        _id: id,
+        ownedBy: this.userId,
+        name: options.name,
+        createdAt: Date(),
+        updatedAt: Date(),
+        posts: []//options.posts
+      });
+      Categories.update(id, {$addToSet: {posts: options.posts} });
+      return id;
   },
 
   addToPost: function (categoryId, postId) {
