@@ -104,9 +104,8 @@ Meteor.methods({
     Posts.update(postId, { $addToSet: {flaggedBy: userId}, $inc: {flagCount: 1}, $set: {updatedAt: Date()} });
   },
 
-  comment: function (postId, authorId, commentText) {
+  comment: function (postId, commentText) {
     check(postId, String);
-    check(authorId, String);
     check(commentText, String);
 
     var post = Posts.findOne(postId);
