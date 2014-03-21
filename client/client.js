@@ -137,6 +137,7 @@ Template.post.events({
 
     element.popover('show');
     setTimeout(function() { element.popover('hide'); }, 2000);
+    setTimeout(function() { element.popover('destroy'); }, 2500);
   }
 });
 
