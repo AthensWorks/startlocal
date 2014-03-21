@@ -119,7 +119,11 @@
 
 <template name="flag_button">
   <div>
+  {{#if flagged}}
+  	<img src="images/flag.png" title="Flagged: {{flagCount}}" />
+  {{else}}
     <a href="#" class="flag" data-id="{{_id}}">flag</a>
+  {{/if}}
   </div>
 </template>
 

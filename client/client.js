@@ -135,6 +135,15 @@ Template.flag_button.events({
   }
 });
 
+Template.flag_button.flagged = function(){
+
+  var userId = Meteor.user()._id;
+  if (_.contains(this.flaggedBy, userId)){
+    return true;
+  }
+  return false;
+};
+
 Template.most_recent.events({
   'click .sort': function() {
     Session.set('sortOrderIs', 'most_recent');
