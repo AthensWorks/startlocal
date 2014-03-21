@@ -111,8 +111,9 @@ Meteor.methods({
     var post = Posts.findOne(postId);
     var authorId = Meteor.user()._id;
 
-    if (! post)
+    if (! post){
       throw new Meteor.Error(404, "No such post");
+    }
 
     Posts.update(postId, {$addToSet: {comments: {
       createdAt: Date(),
