@@ -1,24 +1,3 @@
-//// helper functions
-
-var coordsRelativeToElement = function(element, event) {
-  var offset = $(element).offset();
-  var x = event.pageX - offset.left;
-  var y = event.pageY - offset.top;
-  return {
-    x: x,
-    y: y
-  };
-};
-
-var openCreateDialog = function(x, y) {
-  Session.set("createCoords", {
-    x: x,
-    y: y
-  });
-  Session.set("createError", null);
-  Session.set("showCreateDialog", true);
-};
-
 /// Subscribe
 
 Meteor.subscribe("posts");
@@ -185,10 +164,6 @@ Template.categories.events({
   }
 });
 
-sortOrderIs = function(order) {
-  return Session.get('sortOrderIs') === order;
-};
-
-Template.most_recent.sortOrderIs = sortOrderIs;
+Template.most_recent.sortOrderIs  = sortOrderIs;
 Template.most_upvotes.sortOrderIs = sortOrderIs;
-Template.categories.sortOrderIs = sortOrderIs;
+Template.categories.sortOrderIs   = sortOrderIs;
