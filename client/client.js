@@ -71,6 +71,14 @@ Template.comments.events({
   'click .comment_count': function() {
     $("#" +  this._id + " .comment_list").toggle('fast');
     return true;
+  },
+
+  'click #submit': function() {
+    commentText = $("#" +  this._id + " .comment_text").val()
+    console.log(this._id);
+    console.log(commentText);
+
+    Meteor.call("comment", this._id, Meteor.user()._id, commentText);
   }
 });
 

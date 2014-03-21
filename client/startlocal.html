@@ -107,7 +107,7 @@
 <template name="comments">
 	<div class="comments">
 		<div class="comment_count">{{comment_count}} comments</div>
-
+		<div class="comment_box"><input type="text" class="comment_text"> <input id='submit' type='submit'></div>
 		<div class="comment_list">
 			{{#each comments}}
 				{{> comment}}
