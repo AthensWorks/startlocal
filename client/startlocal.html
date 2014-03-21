@@ -43,7 +43,8 @@
 <template name="post">
 	<div class="post {{selected}}">
 		<div class="upvotearea">
-			<div class="upvotecount">{{upvotedBy.length}}</div>
+			<div class="upvotecount" id="{{_id}}" data-animation="true" data-placement="bottom" data-content="{{upvotedByNames}}">{{upvotedBy.length}}</div>
+
 			{{#if currentUser}}
 				{{> upvote_button}}
 			{{/if}}

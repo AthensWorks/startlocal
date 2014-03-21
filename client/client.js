@@ -50,7 +50,7 @@ Template.post.selected = function() {
 };
 
 Template.post.categories = function () {
-  //read all categories.posts ids and return categories matching to this posts' id  
+  //read all categories.posts ids and return categories matching to this posts' id
   cats = Categories.find({posts: this._id});
   if(cats.count() > 0){
     return cats;
@@ -58,6 +58,20 @@ Template.post.categories = function () {
     // console.log("Found no Categories for the post: "+this._id);
 		return;
 	}
+};
+
+Template.post.upvotedByNames = function () {
+  var namesArray = _.map(this.upvotedBy, function(userId) {
+    var user = Meteor.users.findOne(userId);
+
+    if( user.profile ) {
+      return user.profile.name;
+    } else {
+      return user.emails[0].address.split("@")[0];
+    }
+  });
+
+  return namesArray.join(", ");
 };
 
 /// Template events
@@ -114,6 +128,15 @@ Template.postlist.events({
         score: 5
       }
     });
+  }
+});
+
+Template.post.events({
+  'click .upvotecount': function() {
+    var element = $('#' + event.currentTarget.id + ".upvotecount");
+
+    element.popover('show');
+    setTimeout(function() { element.popover('hide'); }, 2000);
   }
 });
 
