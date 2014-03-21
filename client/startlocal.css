@@ -19,7 +19,7 @@ body {
 
 #outer {
     width: 100%;
-    margin: 0 auto;  
+    margin: 0 auto;
 }
 
 .login {
@@ -65,6 +65,10 @@ body {
 
 .post .updated_at {
     display: inline-block;
+}
+
+.post .comments .comment_list {
+	display: none;
 }
 
 .post .categories {

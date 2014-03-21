@@ -71,6 +71,7 @@ Meteor.methods({
       upvoteCount: 1,
       flaggedBy: [],
       flagCount: 0,
+      comments: [],
       createdAt: Date(),
       updatedAt: Date(),
     });
@@ -102,6 +103,26 @@ Meteor.methods({
 
     Posts.update(postId, { $addToSet: {flaggedBy: userId}, $inc: {flagCount: 1}, $set: {updatedAt: Date()} });
   },
+
+  comment: function (postId, authorId, commentText) {
+    check(postId, String);
+    check(authorId, String);
+    check(commentText, String);
+
+    var post = Posts.findOne(postId);
+    var authorId = Meteor.user()._id;
+
+    if (! post)
+      throw new Meteor.Error(404, "No such post");
+
+    Posts.update(postId, {$addToSet: {comments: {
+      createdAt: Date(),
+      authorId: authorId,
+      text: commentText
+    }}});
+
+    return this;
+  }
 });
 
 ///////////////////////////////////////////////////////////////////////////////

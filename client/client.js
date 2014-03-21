@@ -60,8 +60,29 @@ Template.post.categories = function () {
 	}
 };
 
-/// Template events
+Template.comments.comment_count = function() {
+  if (!this.comments)
+    return 0;
 
+  return this.comments.length;
+};
+
+Template.comments.events({
+  'click .comment_count': function() {
+    $("#" +  this._id + " .comment_list").toggle('fast');
+    return true;
+  }
+});
+
+
+Template.comment.author_name = function() {
+  author = Meteor.users.findOne(this.authorId);
+
+  return author.profile.name;
+}
+
+
+/// Template events
 Template.addButton.events({
   'click .add': function(event, template) {
     var coords = coordsRelativeToElement(event.currentTarget, event);
