@@ -3,32 +3,114 @@
 </head>
 
 <body>
- {{loginButtons}}
-
-  {{> post_list}}
+{{> page }}
 </body>
 
-<template name="post_list">
-  <h1>Posts</h1>
-  {{#each posts}}
-    {{> post}}
-  {{else}}
-    No posts yet.
-  {{/each}}
+<template name="page">
+	{{#if showCreateDialog}}
+		{{> createDialog}}
+	{{/if}}
+
+	Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
+
+	<div class="login">
+		{{loginButtons align="right"}}
+	</div>
+
+	<div id="header">
+		<h1>StartLocal</h1>
+	</div>
+
+	<div id="outer">
+		{{> postlist}}
+	</div>
+
+	{{#if currentUser}} 
+		{{> addButton }}
+	{{else}}
+		Login to add items and upvote!
+	{{/if}}
+</template>
+
+<template name="postlist">
+	<div class="postlist">
+		{{#each posts}}
+			{{> post}}
+		{{else}}
+			No posts yet.
+		{{/each}}
+	</div>
 </template>
 
 <template name="post">
-  <div id="{{_id}}" class="post">
-     <a href="{{url}}" target="_new">{{name}}</a>
-     {{> upvote_button}}
-     <div class="description">
-       {{description}} - {{category}} (Votes: {{upvotedBy.length}}, Flagged {{flaggedBy.length}})
-     </div>
-     {{> flag_button}}
-     <div class="updated_at">
-       Last updated at {{updatedAt}}
-     </div>
-  </div>
+	<div class="post {{selected}}">
+		<div class="upvotearea">
+			<div class="upvotecount">{{upvotedBy.length}}</div>
+			{{#if currentUser}} 
+				{{> upvote_button}}
+			{{/if}}
+		</div>
+		<div class="flagarea">
+			{{> flag_button}}
+		</div>
+		<div>
+			<div>
+				<div class="name"><a href="{{url}}" target="_new">{{name}}</a></div>
+			{{#if categories}}
+				<div class="categories">
+				{{#each categories}}
+					{{> category}}
+				{{/each}}
+				</div>
+			{{/if}}
+			</div>
+			<div class="description">{{description}}</div>
+			<div class="updated_at">Updated: {{updatedAt}}</div>
+		</div>
+	</div>
+</template>
+
+<template name="createDialog">
+	<div class="mask"> </div>
+	<div class="modal">
+		<div class="modal-header">
+			<button type="button" class="close cancel">&times;</button>
+			<h3>Add Resource</h3>
+		</div>
+
+		<div class="modal-body">
+			{{#if error}}
+				<div class="alert alert-error">{{error}}</div>
+			{{/if}}
+
+			<label>Name</label>
+			<input type="text" class="name span5">
+
+			<label>Description</label>
+			<textarea class="description span5" maxlength="140"></textarea>
+
+			<label>Link</label>
+			<input type="text" class="url span5">
+
+			<label>Category</label>
+			<input type="text" class="categories span5"> <br/>(comma separated)
+
+		<div class="modal-footer">
+			<a href="#" class="btn cancel">Cancel</a>
+			<a href="#" class="btn btn-primary save">Add Resource</a>
+		</div>
+	</div>
+</template>
+
+<template name="category">
+	<div class="category">{{name}}</div>
+</template>
+
+<template name="addButton">
+	<div>
+	<input type="button" value="Add a Resource"
+		class="btn btn-small add">
+	</div>
 </template>
 
 <template name="upvote_button">
@@ -41,4 +123,28 @@
   <div>
     <a href="#" class="flag" data-id="{{_id}}">flag</a>
   </div>
+</template>
+
+<template name="most_recent">
+  {{#if sortOrderIs "most_recent"}}
+    Most Recent
+  {{else}}
+    <a href="#" class="sort">Most Recent</a>
+  {{/if}}
+</template>
+
+<template name="most_upvotes">
+  {{#if sortOrderIs "most_upvotes"}}
+    Most Upvotes
+  {{else}}
+    <a href="#" class="sort">Most Upvotes</a>
+  {{/if}}
+</template>
+
+<template name="categories">
+  {{#if sortOrderIs "categories"}}
+    Categories
+  {{else}}
+    <a href="#" class="sort">Categories</a>
+  {{/if}}
 </template>

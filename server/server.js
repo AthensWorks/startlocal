@@ -8,7 +8,11 @@ if (Meteor.isServer) {
   });
 
   Meteor.publish("posts", function () {
-    return Posts.find({ $where: "this.flaggedBy.length < 5" });
+    return Posts.find({ flagCount: { $lt: 5 } });
+  });
+  
+  Meteor.publish("categories", function () {
+    return Categories.find({});
   });
 
 }

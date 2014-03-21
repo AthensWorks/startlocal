@@ -8,7 +8,7 @@ Posts.allow({
     if (userId !== post.ownedBy)
       return false; // not the owner
 
-    var allowed = ["name", "url", "description"];
+    var allowed = ["name", "url", "description", "categories"];
     if (_.difference(fields, allowed).length)
       return false; // tried to write to forbidden field
 
@@ -29,7 +29,12 @@ upvoteCount = function (post) {
 
 var NonEmptyString = Match.Where(function (x) {
   check(x, String);
-  return x.length !== 0;
+  return x.length > 0;
+});
+
+var NonEmptyArray = Match.Where(function (x) {
+  check(x, Array);
+  return x.length > 0;
 });
 
 createPost = function (options) {
@@ -63,9 +68,11 @@ Meteor.methods({
       description: options.description,
       url: options.url,
       upvotedBy: [this.userId],
+      upvoteCount: 1,
       flaggedBy: [],
+      flagCount: 0,
       createdAt: Date(),
-      updatedAt: Date()
+      updatedAt: Date(),
     });
     return id;
   },
@@ -80,7 +87,7 @@ Meteor.methods({
     if (_.contains(post.upvotedBy, userId))
       throw new Meteor.Error(403, "Already upvoted");
 
-    Posts.update(postId, { $addToSet: {upvotedBy: userId}, $set: {updatedAt: Date()} });
+    Posts.update(postId, { $addToSet: {upvotedBy: userId}, $inc: {upvoteCount: 1}, $set: {updatedAt: Date()} });
   },
 
   flag: function (postId, userId) {
@@ -93,7 +100,7 @@ Meteor.methods({
     if (_.contains(post.flaggedBy, userId))
       throw new Meteor.Error(403, "Already flagged");
 
-    Posts.update(postId, { $addToSet: {flaggedBy: userId}, $set: {updatedAt: Date()} });
+    Posts.update(postId, { $addToSet: {flaggedBy: userId}, $inc: {flagCount: 1}, $set: {updatedAt: Date()} });
   },
 });
 
