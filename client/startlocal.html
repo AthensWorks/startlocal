@@ -25,7 +25,7 @@
 		{{> postlist}}
 	</div>
 
-	{{#if currentUser}} 
+	{{#if currentUser}}
 		{{> addButton }}
 	{{else}}
 		Login to add items and upvote!
@@ -36,8 +36,6 @@
 	<div class="postlist">
 		{{#each posts}}
 			{{> post}}
-		{{else}}
-			No posts yet.
 		{{/each}}
 	</div>
 </template>
@@ -46,7 +44,7 @@
 	<div class="post {{selected}}">
 		<div class="upvotearea">
 			<div class="upvotecount">{{upvotedBy.length}}</div>
-			{{#if currentUser}} 
+			{{#if currentUser}}
 				{{> upvote_button}}
 			{{/if}}
 		</div>
