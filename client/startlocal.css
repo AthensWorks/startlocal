@@ -47,7 +47,6 @@ body {
 
 .post .upvotearea {
 	float: left;
-	height: 70px;
 	margin-left: 5px;
 	margin-right: 10px;
 }
@@ -70,6 +69,12 @@ body {
 
 .post .updated_at {
     display: inline-block;
+}
+
+.post .comments {
+		display: inline;
+		position: relative;
+		left: 56px;
 }
 
 .post .comments .comment_list {
@@ -131,10 +136,6 @@ body {
     background-color: #000000;
     opacity: .4;
 /*     z-index: 0; */
-}
-
-.invite-row .invite {
-    margin: 10px 10px 10px 0;
 }
 
 .description {

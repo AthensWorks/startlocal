@@ -36,22 +36,14 @@ Template.comments.comment_count = function() {
 Template.comment.author_name = function() {
   author = Meteor.users.findOne(this.authorId);
 
-  return author.profile.name;
+  return displayName(author);
 }
 
 Template.post.upvotedByNames = function () {
   var namesArray = _.map(this.upvotedBy, function(userId) {
     var user = Meteor.users.findOne(userId);
 
-    if( user === undefined ) {
-      return "";
-    }
-
-    if( user.profile ) {
-      return user.profile.name;
-    } else {
-      return user.emails[0].address.split("@")[0];
-    }
+    return displayName(user);
   });
 
   return namesArray.join(", ");
