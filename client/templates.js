@@ -2,8 +2,8 @@
 
 Template.postlist.posts = function() {
   if (Session.get('sortOrder') == null){
-    Session.set('sortOrderIs', 'most_recent');
-    Session.set('sortOrder', {updatedAt: -1});
+    Session.set('sortOrderIs', 'most_upvotes');
+    Session.set('sortOrder', {upvoteCount: -1, updatedAt: -1});
   }
 
   return Posts.find({}, {
@@ -20,11 +20,24 @@ Template.post.categories = function () {
   cats = Categories.find({posts: this._id});
   if(cats.count() > 0){
     return cats;
-  } else {
+	} else {
     // console.log("Found no Categories for the post: "+this._id);
-    return;
-  }
+		return;
+	}
 };
+
+Template.comments.comment_count = function() {
+  if (!this.comments)
+    return 0;
+
+  return this.comments.length;
+};
+
+Template.comment.author_name = function() {
+  author = Meteor.users.findOne(this.authorId);
+
+  return author.profile.name;
+}
 
 Template.post.upvotedByNames = function () {
   var namesArray = _.map(this.upvotedBy, function(userId) {
@@ -43,6 +56,7 @@ Template.post.upvotedByNames = function () {
 
   return namesArray.join(", ");
 };
+
 
 /// Sort Ordering
 Template.most_recent.sortOrderIs = sortOrderIs;

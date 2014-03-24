@@ -7,36 +7,50 @@ Template.addButton.events({
   }
 });
 
+Template.comments.events({
+  'click .comment_count': function() {
+    $("#" +  this._id + " .comment_list").toggle('fast');
+    return true;
+  },
+
+  'click #submit': function() {
+    commentText = $("#" +  this._id + " .comment_text").val()
+
+    Meteor.call("comment", this._id, commentText);
+  }
+});
+
 Template.createDialog.events({
   'click .save': function(event, template) {
-    var name = template.find(".name").value;
-    var description = template.find(".description").value;
-    var url = template.find(".url").value;
-    var categories = template.find(".categories").value.split(",");
+		var name = template.find(".name").value;
+		var description = template.find(".description").value;
+		var url = template.find(".url").value;
+		var categories = template.find(".categories").value.split(",");
 
 
-    if (name.length && description.length && url.length) {
-      var postId = createPost({
-        name: name,
-        description: description,
-        url: url,
-      });
+		if (name.length && description.length && url.length) {
+			var postId = createPost({
+				name: name,
+				description: description,
+				url: url,
+			});
 
 
-      categories = categories.map(function(s) {
-        var categoryId = createCategory({
-          name: s.trim(),
-        });
+		  categories = categories.map(function(s) {
+  			var categoryId = createCategory({
+  				name: s.trim(),
+  			});
 
         addCategoryToPost(categoryId,postId);
-        return postId;
-     });
+  			return postId;
+	   });
 
-      Session.set("showCreateDialog", false);
-    }
+			Session.set("selected", postId);
+			Session.set("showCreateDialog", false);
+		}
     else {
-      Session.set("createError", "It needs a name, a description and a URL—or why bother?");
-    }
+			Session.set("createError", "It needs a name, a description and a URL—or why bother?");
+		}
   },
 
   'click .cancel': function() {
