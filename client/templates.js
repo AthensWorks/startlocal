@@ -1,4 +1,5 @@
 /// Template functions
+
 Template.postlist.posts = function() {
   if (Session.get('sortOrder') == null){
     Session.set('sortOrderIs', 'most_upvotes');
@@ -12,15 +13,6 @@ Template.postlist.posts = function() {
 
 Template.page.showCreateDialog = function() {
   return Session.get("showCreateDialog");
-};
-
-Template.postlist.selected_name = function() {
-  var post = Posts.findOne(Session.get("selected_post"));
-  return post && post.name;
-};
-
-Template.post.selected = function() {
-  return Session.equals("selected_post", this._id) ? "selected" : '';
 };
 
 Template.post.categories = function () {
@@ -44,9 +36,23 @@ Template.comments.comment_count = function() {
 Template.comment.author_name = function() {
   author = Meteor.users.findOne(this.authorId);
 
-  return author.profile.name;
+  return displayName(author);
 }
 
-Template.most_recent.sortOrderIs  = sortOrderIs;
+Template.post.upvotedByNames = function () {
+  var namesArray = _.map(this.upvotedBy, function(userId) {
+    var user = Meteor.users.findOne(userId);
+
+    return displayName(user);
+  });
+
+  return namesArray.join(", ");
+};
+
+
+/// Sort Ordering
+Template.most_recent.sortOrderIs = sortOrderIs;
+
 Template.most_upvotes.sortOrderIs = sortOrderIs;
-Template.categories.sortOrderIs   = sortOrderIs;
+
+Template.categories.sortOrderIs = sortOrderIs;

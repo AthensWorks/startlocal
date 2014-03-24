@@ -11,7 +11,9 @@
 		{{> createDialog}}
 	{{/if}}
 
-	Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
+  <div class="sort_area">
+  	Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
+  </div>
 
 	<div class="login">
 		{{loginButtons align="right"}}
@@ -36,8 +38,6 @@
 	<div class="postlist">
 		{{#each posts}}
 			{{> post}}
-		{{else}}
-			No posts yet.
 		{{/each}}
 	</div>
 </template>
@@ -45,14 +45,16 @@
 <template name="post">
 	<div class="post {{selected}}" id="{{_id}}">
 		<div class="upvotearea">
-			<div class="upvotecount">{{upvotedBy.length}}</div>
+			<div class="upvotecount" id="{{_id}}" data-animation="true" data-placement="bottom" data-content="{{upvotedByNames}}">{{upvotedBy.length}}</div>
 			{{#if currentUser}}
 				{{> upvote_button}}
 			{{/if}}
 		</div>
+    {{#if currentUser}}
 		<div class="flagarea">
 			{{> flag_button}}
 		</div>
+    {{/if}}
 		<div>
 			<div>
 				<div class="name"><a href="{{url}}" target="_new">{{name}}</a></div>
@@ -105,15 +107,17 @@
 </template>
 
 <template name="comments">
-	<div class="comments">
-		<div class="comment_count">{{comment_count}} comments</div>
-		<div class="comment_box"><input type="text" class="comment_text"> <input id='submit' type='submit'></div>
-		<div class="comment_list">
-			{{#each comments}}
-				{{> comment}}
-			{{/each}}
-		</div>
-	</div>
+  <div class="comments">
+    <div class="comment_count">{{comment_count}} comments</div>
+    {{#if currentUser}}
+      <div class="comment_box"><input type="text" class="comment_text"> <input id='submit' type='submit'></div>
+      <div class="comment_list">
+      {{#each comments}}
+      {{> comment}}
+      {{/each}}
+      </div>
+    {{/if}}
+  </div>
 </template>
 
 <template name="category">
@@ -139,7 +143,11 @@
 
 <template name="flag_button">
   <div>
+  {{#if flagged}}
+  	<img src="images/flag.png" title="Flagged: {{flagCount}}" />
+  {{else}}
     <a href="#" class="flag" data-id="{{_id}}">flag</a>
+  {{/if}}
   </div>
 </template>
 

@@ -1,3 +1,5 @@
+/// Template events
+
 Template.addButton.events({
   'click .add': function(event, template) {
     var coords = coordsRelativeToElement(event.currentTarget, event);
@@ -56,13 +58,13 @@ Template.createDialog.events({
   }
 });
 
-Template.postlist.events({
-  'click input.inc': function() {
-    Posts.update(Session.get("selected_post"), {
-      $inc: {
-        score: 5
-      }
-    });
+Template.post.events({
+  'click .upvotecount': function() {
+    var element = $('#' + event.currentTarget.id + ".upvotecount");
+
+    element.popover('show');
+    setTimeout(function() { element.popover('hide'); }, 2000);
+    setTimeout(function() { element.popover('destroy'); }, 2500);
   }
 });
 
@@ -83,6 +85,15 @@ Template.flag_button.events({
     Meteor.call("flag", postId, userId);
   }
 });
+
+Template.flag_button.flagged = function(){
+
+  var userId = Meteor.user()._id;
+  if (_.contains(this.flaggedBy, userId)){
+    return true;
+  }
+  return false;
+};
 
 Template.most_recent.events({
   'click .sort': function() {

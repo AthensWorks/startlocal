@@ -2,7 +2,7 @@
 
 #header {
 	background-color: white;
-    margin: 20px;
+	margin: 20px 0px;
 }
 
 body {
@@ -22,17 +22,22 @@ body {
     margin: 0 auto;
 }
 
+.sort_area {
+	display: inline;
+}
+
 .login {
 	position:absolute;
+	display: inline;
 	right:0px;
 	margin-right: 50px;
 }
+
 .post {
-    cursor: pointer;
     padding: 5px;
     background-color: white;
     border: 1px black solid;
-    margin: 5px;
+    margin: 5px 0px;
 }
 
 .post .name {
@@ -95,11 +100,6 @@ body {
 	border-width: 1px;
 }
 
-.post.selected {
-    color: white;
-    background-color: black;
-}
-
 .details, .none {
     font-weight: bold;
     font-size: 2em;
@@ -112,10 +112,6 @@ body {
 
 .none {
     color: #777;
-}
-
-.inc {
-  cursor: pointer;
 }
 
 .header {
