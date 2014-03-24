@@ -49,6 +49,32 @@ Template.post.upvotedByNames = function () {
   return namesArray.join(", ");
 };
 
+Template.upvote_button.upvoted = function(){
+  if( Meteor.user() === undefined )
+    return false;
+
+  var userId = Meteor.user()._id;
+
+  if (_.contains(this.upvotedBy, userId)){
+    return true;
+  }
+
+  return false;
+};
+Template.flag_button.flagged = function(){
+  if( Meteor.user() === undefined )
+    return false;
+
+  var userId = Meteor.user()._id;
+
+  if (_.contains(this.flaggedBy, userId)){
+    return true;
+  }
+
+  return false;
+};
+
+
 
 /// Sort Ordering
 Template.most_recent.sortOrderIs = sortOrderIs;

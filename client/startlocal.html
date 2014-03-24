@@ -113,7 +113,7 @@
       <div class="comment_box"><input type="text" class="comment_text"> <input id='submit' type='submit'></div>
       <div class="comment_list">
       {{#each comments}}
-      {{> comment}}
+        {{> comment}}
       {{/each}}
       </div>
     {{/if}}
@@ -137,7 +137,11 @@
 
 <template name="upvote_button">
   <div>
-    <a href="#" class="upvote" data-id="{{_id}}">upvote</a>
+    {{#if upvoted}}
+      upvote
+    {{else}}
+      <a href="#" class="upvote" data-id="{{_id}}">upvote</a>
+    {{/if}}
   </div>
 </template>
 
