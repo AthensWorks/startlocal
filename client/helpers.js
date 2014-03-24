@@ -1,5 +1,3 @@
-//// helper functions
-
 var coordsRelativeToElement = function(element, event) {
   var offset = $(element).offset();
   var x = event.pageX - offset.left;
