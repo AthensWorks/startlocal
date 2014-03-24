@@ -98,13 +98,13 @@ Meteor.methods({
 
 // ///////////////////////////////////////////////////////////////////////////////
 // // Users
-// 
+//
 // displayName = function (user) {
 //   if (user.profile && user.profile.name)
 //     return user.profile.name;
 //   return user.emails[0].address;
 // };
-// 
+//
 // var contactEmail = function (user) {
 //   if (user.emails && user.emails.length)
 //     return user.emails[0].address;

@@ -40,15 +40,6 @@ Template.page.showCreateDialog = function() {
   return Session.get("showCreateDialog");
 };
 
-Template.postlist.selected_name = function() {
-  var post = Posts.findOne(Session.get("selected_post"));
-  return post && post.name;
-};
-
-Template.post.selected = function() {
-  return Session.equals("selected_post", this._id) ? "selected" : '';
-};
-
 Template.post.categories = function () {
   //read all categories.posts ids and return categories matching to this posts' id
   cats = Categories.find({posts: this._id});
@@ -63,6 +54,10 @@ Template.post.categories = function () {
 Template.post.upvotedByNames = function () {
   var namesArray = _.map(this.upvotedBy, function(userId) {
     var user = Meteor.users.findOne(userId);
+
+    if( user === undefined ) {
+      return "";
+    }
 
     if( user.profile ) {
       return user.profile.name;
@@ -108,7 +103,6 @@ Template.createDialog.events({
   			return postId;
 	   });
 
-			Session.set("selected", postId);
 			Session.set("showCreateDialog", false);
 		}
     else {
@@ -118,16 +112,6 @@ Template.createDialog.events({
 
   'click .cancel': function() {
     Session.set("showCreateDialog", false);
-  }
-});
-
-Template.postlist.events({
-  'click input.inc': function() {
-    Posts.update(Session.get("selected_post"), {
-      $inc: {
-        score: 5
-      }
-    });
   }
 });
 
