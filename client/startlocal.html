@@ -67,6 +67,8 @@
 			</div>
 			<div class="description">{{description}}</div>
 			<div class="updated_at">Updated: {{updatedAt}}</div>
+
+			{{> comments}}
 		</div>
 	</div>
 </template>
@@ -103,8 +105,24 @@
 	</div>
 </template>
 
+<template name="comments">
+	<div class="comments">
+		<div class="comment_count">{{comment_count}} comments</div>
+		<div class="comment_box"><input type="text" class="comment_text"> <input id='submit' type='submit'></div>
+		<div class="comment_list">
+			{{#each comments}}
+				{{> comment}}
+			{{/each}}
+		</div>
+	</div>
+</template>
+
 <template name="category">
 	<div class="category">{{name}}</div>
+</template>
+
+<template name="comment">
+	<div class="comment">{{author_name}} wrote "{{text}}" on {{createdAt}}</div>
 </template>
 
 <template name="addButton">

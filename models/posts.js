@@ -71,6 +71,7 @@ Meteor.methods({
       upvoteCount: 1,
       flaggedBy: [],
       flagCount: 0,
+      comments: [],
       createdAt: Date(),
       updatedAt: Date(),
     });
@@ -102,21 +103,24 @@ Meteor.methods({
 
     Posts.update(postId, { $addToSet: {flaggedBy: userId}, $inc: {flagCount: 1}, $set: {updatedAt: Date()} });
   },
+
+  comment: function (postId, commentText) {
+    check(postId, String);
+    check(commentText, String);
+
+    var post = Posts.findOne(postId);
+    var authorId = Meteor.user()._id;
+
+    if (! post){
+      throw new Meteor.Error(404, "No such post");
+    }
+
+    Posts.update(postId, {$addToSet: {comments: {
+      createdAt: Date(),
+      authorId: authorId,
+      text: commentText
+    }}});
+
+    return this;
+  }
 });
-
-///////////////////////////////////////////////////////////////////////////////
-// Users
-
-displayName = function (user) {
-  if (user.profile && user.profile.name)
-    return user.profile.name;
-  return user.emails[0].address;
-};
-
-var contactEmail = function (user) {
-  if (user.emails && user.emails.length)
-    return user.emails[0].address;
-  if (user.services && user.services.facebook && user.services.facebook.email)
-    return user.services.facebook.email;
-  return null;
-};

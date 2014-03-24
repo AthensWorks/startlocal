@@ -72,6 +72,10 @@ body {
     display: inline-block;
 }
 
+.post .comments .comment_list {
+	display: none;
+}
+
 .post .categories {
 	display: inline;
 	position: relative;
