@@ -55,6 +55,10 @@ Template.post.upvotedByNames = function () {
   var namesArray = _.map(this.upvotedBy, function(userId) {
     var user = Meteor.users.findOne(userId);
 
+    if( user === undefined ) {
+      return "";
+    }
+
     if( user.profile ) {
       return user.profile.name;
     } else {
