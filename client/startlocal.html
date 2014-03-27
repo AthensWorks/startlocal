@@ -67,7 +67,7 @@
 			{{/if}}
 			</div>
 			<div class="description">{{description}}</div>
-			<div class="updated_at">Updated: {{updatedAt}}</div>
+			<div class="updated_at dateString">Updated {{updatedAtString}}</div>
 
 			{{> comments}}
 		</div>
@@ -108,13 +108,17 @@
 
 <template name="comments">
   <div class="comments">
-    <div class="comment_count">{{comment_count}} comments</div>
+    {{#if comment_count}}
+      <div class="comment_count">{{comment_count}} comments</div>
+    {{else}}
+      <div class="comment_count">Add a comment.</div>
+    {{/if}}
     {{#if currentUser}}
-      <div class="comment_box"><input type="text" class="comment_text"> <input id='submit' type='submit'></div>
       <div class="comment_list">
-      {{#each comments}}
-        {{> comment}}
-      {{/each}}
+        {{#each comments}}
+          {{> comment}}
+        {{/each}}
+        <div class="comment_box"><input type="text" class="comment_text"><input id='submit' class="submit_comment" type='submit'></div>
       </div>
     {{/if}}
   </div>
@@ -125,7 +129,7 @@
 </template>
 
 <template name="comment">
-	<div class="comment">{{author_name}} wrote "{{text}}" on {{createdAt}}</div>
+	<div class="comment"><div class="username">{{author_name}}</div>: "{{text}}" <div class="dateString">{{createdAtString}}</div></div>
 </template>
 
 <template name="addButton">
