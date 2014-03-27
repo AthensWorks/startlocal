@@ -1,5 +1,10 @@
 /// Template functions
 
+Template.page.showCreateDialog = function() {
+  return Session.get("showCreateDialog");
+};
+
+
 Template.postlist.posts = function() {
   if (Session.get('sortOrder') == null){
     Session.set('sortOrderIs', 'most_upvotes');
@@ -11,9 +16,9 @@ Template.postlist.posts = function() {
   });
 };
 
-Template.page.showCreateDialog = function() {
-  return Session.get("showCreateDialog");
-};
+Template.post.updatedAtString = function() {
+  return moment(this.updatedAt).calendar();
+}
 
 Template.post.categories = function () {
   //read all categories.posts ids and return categories matching to this posts' id
@@ -26,19 +31,6 @@ Template.post.categories = function () {
 	}
 };
 
-Template.comments.comment_count = function() {
-  if (!this.comments)
-    return 0;
-
-  return this.comments.length;
-};
-
-Template.comment.author_name = function() {
-  author = Meteor.users.findOne(this.authorId);
-
-  return displayName(author);
-}
-
 Template.post.upvotedByNames = function () {
   var namesArray = _.map(this.upvotedBy, function(userId) {
     var user = Meteor.users.findOne(userId);
@@ -48,6 +40,24 @@ Template.post.upvotedByNames = function () {
 
   return namesArray.join(", ");
 };
+
+Template.comments.comment_count = function() {
+  if (!this.comments) {
+    return 0;
+  }
+
+  return this.comments.length;
+};
+
+Template.comment.createdAtString = function () {
+    return moment(this.createdAt).calendar();
+}
+
+Template.comment.author_name = function() {
+  author = Meteor.users.findOne(this.authorId);
+
+  return displayName(author);
+}
 
 Template.upvote_button.upvoted = function(){
   if( Meteor.user() === undefined )
@@ -73,8 +83,6 @@ Template.flag_button.flagged = function(){
 
   return false;
 };
-
-
 
 /// Sort Ordering
 Template.most_recent.sortOrderIs = sortOrderIs;

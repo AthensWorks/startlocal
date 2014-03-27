@@ -10,6 +10,11 @@ Template.addButton.events({
 Template.comments.events({
   'click .comment_count': function() {
     $("#" +  this._id + " .comment_list").toggle('fast');
+
+    if( !this.comments ) {
+      $("#" +  this._id + " .comment_text").select();
+    }
+
     return true;
   },
 
