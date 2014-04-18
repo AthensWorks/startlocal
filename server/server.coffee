@@ -13,3 +13,7 @@ if Meteor.isServer
   Meteor.publish("categories", () ->
     return Categories.find({})
   )
+
+  Meteor.publish("allUserData", () ->
+    return Meteor.users.find({})
+  )
