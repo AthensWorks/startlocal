@@ -29,22 +29,20 @@ Template.createDialog.events(
     url = template.find(".url").value
     categories = template.find(".categories").value.split(",")
 
+    categories = categories.map((s) ->
+      return s.trim();
+    )
+
+    if categories.length == 0
+      categories = null;
 
     if name.length && description.length && url.length
       postId = createPost(
         name: name,
         description: description,
         url: url,
+        categories: categories,
       )
-
-      categories = categories.map((s) ->
-        categoryId = createCategory(
-          name: s.trim(),
-        )
-
-        addCategoryToPost(categoryId,postId)
-        return postId
-     )
 
       Session.set("selected", postId)
       Session.set("showCreateDialog", false)
@@ -58,7 +56,7 @@ Template.createDialog.events(
 Template.post.events(
   'click .upvotecount': () ->
     element = $('#' + event.currentTarget.id + ".upvotecount")
-    
+
     element.popover('show')
     setTimeout(
       () -> element.popover('hide'),

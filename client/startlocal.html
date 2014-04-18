@@ -61,7 +61,7 @@
 			{{#if categories}}
 				<div class="categories">
 				{{#each categories}}
-					{{> categories}}
+					{{> category}}
 				{{/each}}
 				</div>
 			{{/if}}
@@ -126,7 +126,7 @@
 </template>
 
 <template name="category">
-	<div class="category">{{name}}</div>
+	<div class="category">{{this}}</div>
 </template>
 
 <template name="comment">

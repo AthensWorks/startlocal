@@ -17,15 +17,6 @@ Template.postlist.posts = () ->
 Template.post.updatedAtString = () ->
   return moment(this.updatedAt).calendar()
 
-Template.post.categories = () ->
-  # read all categories.posts ids and return categories matching to this posts' id
-  cats = Categories.find({posts: this._id})
-  if cats.count() > 0
-    return cats
-  else
-    # console.log("Found no Categories for the post: "+this._id)
-    return
-
 Template.post.upvotedByNames = () ->
   namesArray = _.map(this.upvotedBy, (userId) ->
     user = Meteor.users.findOne(userId)

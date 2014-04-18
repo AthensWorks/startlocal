@@ -47,7 +47,8 @@ Meteor.methods(
       name: NonEmptyString,
       url: NonEmptyString,
       description: NonEmptyString,
-      _id: Match.Optional(NonEmptyString)
+      _id: Match.Optional(NonEmptyString),
+      categories: Match.Optional(NonEmptyArray),
     )
 
     if options.name.length > 64
@@ -69,6 +70,7 @@ Meteor.methods(
       flaggedBy: [],
       flagCount: 0,
       comments: [],
+      categories: options.categories,
       createdAt: Date(),
       updatedAt: Date(),
     )
