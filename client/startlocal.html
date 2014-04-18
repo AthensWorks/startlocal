@@ -55,14 +55,14 @@
 		</div>
 		<div>
 			<div>
-			<div class="name"><a href="{{url}}" target="_new">{{name}}</a></div>
-				{{#if categories}}
-					<div class="categories">
-					{{#each categories}}
-						{{> category}}
-					{{/each}}
-					</div>
-				{{/if}}
+				<div class="name"><a href="{{url}}" target="_new">{{name}}</a></div>
+			{{#if categories}}
+				<div class="categories">
+				{{#each categories}}
+					{{> category}}
+				{{/each}}
+				</div>
+			{{/if}}
 			</div>
 			<div class="description">{{description}}</div>
 			<div class="updated_at">Updated: {{updatedAt}}</div>
@@ -94,13 +94,7 @@
 
 			<label>Category</label>
 			<input type="text" class="categories span5"> <br/>(comma separated)
-<!-- maybe add categories from a drop down?
-				<select class="categories span5">
-					{{#each category}}
-						<option value="{{name}}">{{name}}</option>
-					{{/each}}
-				</select>
- -->
+
 		<div class="modal-footer">
 			<a href="#" class="btn cancel">Cancel</a>
 			<a href="#" class="btn btn-primary save">Add Resource</a>
@@ -109,7 +103,7 @@
 </template>
 
 <template name="category">
-	<div class="category">"{{name}}"</div>
+	<div class="category">{{name}}</div>
 </template>
 
 <template name="addButton">

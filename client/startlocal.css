@@ -37,7 +37,6 @@ body {
 
 .post .name {
     display: inline-block;
-    width: 300px;
     font-size: 1.75em;
 }
 
@@ -68,11 +67,28 @@ body {
     display: inline-block;
 }
 
+.post .categories {
+	display: inline;
+	position: relative;
+	top: -4px;
+}
+
 .post .category {
     font-weight: bold;
-    font-size: 2em;
+    font-size: 1em;
     display: inline-block;
-	float: right;
+	margin: 5px;
+	padding: 0px 4px;
+
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 5px;
+	background-color: LightGreen;
+}
+
+.post .outline {
+	border-style: dotted;
+	border-width: 1px;
 }
 
 .post.selected {
