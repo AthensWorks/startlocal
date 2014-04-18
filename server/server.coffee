@@ -1,17 +1,15 @@
-if (Meteor.isServer) {
-  Meteor.startup(function() {
-    return Meteor.methods({
-      removeAllPosts: function() {
-        return Posts.remove({});
-      }
-    });
-  });
+if Meteor.isServer
+  Meteor.startup(() ->
+    return Meteor.methods(
+      removeAllPosts: () ->
+        return Posts.remove({})
+    )
+  )
 
-  Meteor.publish("posts", function () {
-    return Posts.find({ flagCount: { $lt: 5 } });
-  });
+  Meteor.publish("posts", () ->
+    return Posts.find({ flagCount: { $lt: 5 } })
+  )
 
-  Meteor.publish("categories", function () {
-    return Categories.find({});
-  });
-}
+  Meteor.publish("categories", () ->
+    return Categories.find({})
+  )

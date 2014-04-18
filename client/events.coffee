@@ -1,113 +1,114 @@
 # Template events
 
-Template.addButton.events({
-  'click .add': function(event, template) {
-    var coords = coordsRelativeToElement(event.currentTarget, event);
-    openCreateDialog(coords.x / 500, coords.y / 500);
-  }
-});
+Template.addButton.events(
+  'click .add': (event, template) ->
+    coords = coordsRelativeToElement(event.currentTarget, event)
+    openCreateDialog(coords.x / 500, coords.y / 500)
+)
 
-Template.comments.events({
-  'click .comment_count': function() {
-    $("#" +  this._id + " .comment_list").toggle('fast');
+Template.comments.events(
+  'click .comment_count': () ->
+    $("#" +  this._id + " .comment_list").toggle('fast')
 
-    if( !this.comments ) {
-      $("#" +  this._id + " .comment_text").select();
-    }
+    if !this.comments
+      $("#" +  this._id + " .comment_text").select()
 
-    return true;
-  },
+    return true
+  ,
 
-  'click #submit': function() {
+  'click #submit': () ->
     commentText = $("#" +  this._id + " .comment_text").val()
 
-    Meteor.call("comment", this._id, commentText);
-  }
-});
+    Meteor.call("comment", this._id, commentText)
+)
 
-Template.createDialog.events({
-  'click .save': function(event, template) {
-		var name = template.find(".name").value;
-		var description = template.find(".description").value;
-		var url = template.find(".url").value;
-		var categories = template.find(".categories").value.split(",");
-
-
-		if (name.length && description.length && url.length) {
-			var postId = createPost({
-				name: name,
-				description: description,
-				url: url,
-			});
+Template.createDialog.events(
+  'click .save': (event, template) ->
+    name = template.find(".name").value
+    description = template.find(".description").value
+    url = template.find(".url").value
+    categories = template.find(".categories").value.split(",")
 
 
-		  categories = categories.map(function(s) {
-  			var categoryId = createCategory({
-  				name: s.trim(),
-  			});
+    if name.length && description.length && url.length
+      postId = createPost(
+        name: name,
+        description: description,
+        url: url,
+      )
 
-        addCategoryToPost(categoryId,postId);
-  			return postId;
-	   });
+      categories = categories.map((s) ->
+        categoryId = createCategory(
+          name: s.trim(),
+        )
 
-			Session.set("selected", postId);
-			Session.set("showCreateDialog", false);
-		}
-    else {
-			Session.set("createError", "It needs a name, a description and a URL—or why bother?");
-		}
-  },
+        addCategoryToPost(categoryId,postId)
+        return postId
+     )
 
-  'click .cancel': function() {
-    Session.set("showCreateDialog", false);
-  }
-});
+      Session.set("selected", postId)
+      Session.set("showCreateDialog", false)
+    else
+      Session.set("createError", "It needs a name, a description and a URL—or why bother?")
 
-Template.post.events({
-  'click .upvotecount': function() {
-    var element = $('#' + event.currentTarget.id + ".upvotecount");
+  'click .cancel': () ->
+    Session.set("showCreateDialog", false)
+)
 
-    element.popover('show');
-    setTimeout(function() { element.popover('hide'); }, 2000);
-    setTimeout(function() { element.popover('destroy'); }, 2500);
-  }
-});
+Template.post.events(
+  'click .upvotecount': () ->
+    element = $('#' + event.currentTarget.id + ".upvotecount")
+    
+    element.popover('show')
+    setTimeout(
+      () -> element.popover('hide'),
+      2000
+    )
+    setTimeout(
+      () -> element.popover('destroy'),
+      2500
+    )
+)
 
-Template.upvote_button.events({
-  'click .upvote': function() {
-    var postId = this._id;
-    var userId = Meteor.user()._id;
+Template.upvote_button.events(
+  'click .upvote': () ->
+    postId = this._id
+    userId = Meteor.user()._id
 
-    Meteor.call("upvote", postId, userId);
-  }
-});
+    Meteor.call("upvote", postId, userId)
+)
 
-Template.flag_button.events({
-  'click .flag': function() {
-    var postId = this._id;
-    var userId = Meteor.user()._id;
+Template.flag_button.events(
+  'click .flag': () ->
+    postId = this._id
+    userId = Meteor.user()._id
 
-    Meteor.call("flag", postId, userId);
-  }
-});
+    Meteor.call("flag", postId, userId)
+)
 
-Template.most_recent.events({
-  'click .sort': function() {
-    Session.set('sortOrderIs', 'most_recent');
-    Session.set('sortOrder', {updatedAt: -1});
-  }
-});
+Template.most_recent.events(
+  'click .sort': () ->
+    Session.set('sortOrderIs', 'most_recent')
+    Session.set('sortOrder', updatedAt: -1)
+)
 
-Template.most_upvotes.events({
-  'click .sort': function() {
-    Session.set('sortOrderIs', 'most_upvotes');
-    Session.set('sortOrder', {upvoteCount: -1, updatedAt: -1});
-  }
-});
+Template.most_upvotes.events(
+  'click .sort': () ->
+    Session.set('sortOrderIs', 'most_upvotes')
+    Session.set(
+      'sortOrder',
+        upvoteCount: -1,
+        updatedAt: -1
+    )
+)
 
-Template.categories.events({
-  'click .sort': function() {
-    Session.set('sortOrderIs', 'categories');
-    Session.set('sortOrder', {category: -1, upvoteCount: -1, updatedAt: -1});
-  }
-});
+Template.categories.events(
+  'click .sort': () ->
+    Session.set('sortOrderIs', 'categories')
+    Session.set(
+      'sortOrder',
+        category: -1,
+        upvoteCount: -1,
+        updatedAt: -1
+    )
+)
