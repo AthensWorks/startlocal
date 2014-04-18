@@ -1,4 +1,4 @@
-/// Template events
+# Template events
 
 Template.addButton.events({
   'click .add': function(event, template) {

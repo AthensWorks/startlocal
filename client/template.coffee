@@ -1,4 +1,4 @@
-/// Template functions
+ # Template functions
 
 Template.page.showCreateDialog = function() {
   return Session.get("showCreateDialog");
@@ -21,7 +21,7 @@ Template.post.updatedAtString = function() {
 }
 
 Template.post.categories = function () {
-  //read all categories.posts ids and return categories matching to this posts' id
+  # read all categories.posts ids and return categories matching to this posts' id
   cats = Categories.find({posts: this._id});
   if(cats.count() > 0){
     return cats;
@@ -84,7 +84,7 @@ Template.flag_button.flagged = function(){
   return false;
 };
 
-/// Sort Ordering
+# Sort Ordering
 Template.most_recent.sortOrderIs = sortOrderIs;
 
 Template.most_upvotes.sortOrderIs = sortOrderIs;

@@ -12,13 +12,13 @@ Posts.allow({
     if (_.difference(fields, allowed).length)
       return false; // tried to write to forbidden field
 
-    // A good improvement would be to validate the type of the new
-    // value of the field (and if a string, the length.) In the
-    // future Meteor will have a schema system to makes that easier.
+    # A good improvement would be to validate the type of the new
+    # value of the field (and if a string, the length.) In the
+    # future Meteor will have a schema system to makes that easier.
     return true;
   },
   remove: function (userId, post) {
-    // You can only remove posts that you created and nobody else upvoted.
+    # You can only remove posts that you created and nobody else upvoted.
     return post.ownedBy === userId && upvoteCount(post) === 1;
   }
 });
@@ -44,7 +44,7 @@ createPost = function (options) {
 };
 
 Meteor.methods({
-  // options should include: name, url, description
+  # options should include: name, url, description
   createPost: function (options) {
     check(options, {
       name: NonEmptyString,

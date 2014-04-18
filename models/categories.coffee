@@ -5,22 +5,22 @@ Categories.allow({
     return true; // anyone can add
   },
   update: function (userId, category, fields, modifier) {
-//     if (userId !== category.ownedBy)
-//       return false; // not the owner
+     # if (userId !== category.ownedBy)
+		 # return false; // not the owner
 
     var allowed = ["posts"];
     if (_.difference(fields, allowed).length)
       return false; // tried to write to forbidden field
 
-    // A good improvement would be to validate the type of the new
-    // value of the field (and if a string, the length.) In the
-    // future Meteor will have a schema system to makes that easier.
+    # A good improvement would be to validate the type of the new
+    # value of the field (and if a string, the length.) In the
+     # future Meteor will have a schema system to makes that easier.
     return true;
   },
-//   remove: function (userId, category) {
-//     // You can only remove posts that you created and nobody else upvoted.
-//     return post.ownedBy === userId;
-//   }
+  # remove: function (userId, category) {
+	# You can only remove posts that you created and nobody else upvoted.
+  # return post.ownedBy === userId;
+  # }
 });
 
 var NonEmptyString = Match.Where(function (x) {
@@ -39,8 +39,8 @@ createCategory = function (options) {
   return id;
 };
 
-// checks to see if a category with the same already exists
-//  true if exists, false if not exists
+# checks to see if a category with the same already exists
+#  true if exists, false if not exists
 checkCategoryExistance = function (newCategoryName) {
   cats = Categories.find({name: newCategoryName});
   return (cats.count()>0);
@@ -56,7 +56,7 @@ addCategoryToPost = function (categoryId, postId) {
 
 
 Meteor.methods({
-  // options should include: name
+  # options should include: name
   createCategory: function (options) {
     check(options, {
       name: NonEmptyString,
@@ -76,7 +76,7 @@ Meteor.methods({
         name: options.name,
         createdAt: Date(),
         updatedAt: Date(),
-        posts: []//options.posts
+        posts: [] #options.posts
       });
       Categories.update(id, {$addToSet: {posts: options.posts} });
       return id;
@@ -92,6 +92,6 @@ Meteor.methods({
     if (_.contains(post.categories, categoryId))
       throw new Meteor.Error(403, "Already has this category");
 
-    Categories.update(categoryId, { $addToSet: {posts: postId}, $set: {updatedAt: Date()} }); // $inc: {postCount: 1} or something?
+    Categories.update(categoryId, { $addToSet: {posts: postId}, $set: {updatedAt: Date()} }); # $inc: {postCount: 1} or something?
   },
 });
