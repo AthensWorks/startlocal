@@ -14,4 +14,8 @@ if (Meteor.isServer) {
   Meteor.publish("categories", function () {
     return Categories.find({});
   });
+
+  Meteor.publish("allUserData", function () {
+    return Meteor.users.find({});
+  });
 }
