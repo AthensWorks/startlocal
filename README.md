@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/athensworks/startlocal.png?label=ready&title=Ready)](https://waffle.io/athensworks/startlocal)
 startlocal
 ==========
 

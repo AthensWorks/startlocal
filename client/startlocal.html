@@ -11,10 +11,12 @@
 		{{> createDialog}}
 	{{/if}}
 
-	Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
+  <div class="sort_area">
+  	Sort by: {{> most_recent}} | {{> most_upvotes}} | {{> categories}}
+  </div>
 
 	<div class="login">
-		{{loginButtons align="right"}}
+		{{> loginButtons align="right"}}
 	</div>
 
 	<div id="header">
@@ -25,7 +27,7 @@
 		{{> postlist}}
 	</div>
 
-	{{#if currentUser}} 
+	{{#if currentUser}}
 		{{> addButton }}
 	{{else}}
 		Login to add items and upvote!
@@ -36,36 +38,38 @@
 	<div class="postlist">
 		{{#each posts}}
 			{{> post}}
-		{{else}}
-			No posts yet.
 		{{/each}}
 	</div>
 </template>
 
 <template name="post">
-	<div class="post {{selected}}">
+	<div class="post {{selected}}" id="{{_id}}">
 		<div class="upvotearea">
-			<div class="upvotecount">{{upvotedBy.length}}</div>
-			{{#if currentUser}} 
+			<div class="upvotecount" id="{{_id}}" data-animation="true" data-placement="bottom" data-content="{{upvotedByNames}}">{{upvotedBy.length}}</div>
+			{{#if currentUser}}
 				{{> upvote_button}}
 			{{/if}}
 		</div>
+    {{#if currentUser}}
 		<div class="flagarea">
 			{{> flag_button}}
 		</div>
+    {{/if}}
 		<div>
 			<div>
 				<div class="name"><a href="{{url}}" target="_new">{{name}}</a></div>
 			{{#if categories}}
 				<div class="categories">
 				{{#each categories}}
-					{{> category}}
+					{{> categories}}
 				{{/each}}
 				</div>
 			{{/if}}
 			</div>
 			<div class="description">{{description}}</div>
-			<div class="updated_at">Updated: {{updatedAt}}</div>
+			<div class="updated_at dateString">Updated {{updatedAtString}}</div>
+
+			{{> comments}}
 		</div>
 	</div>
 </template>
@@ -94,6 +98,7 @@
 
 			<label>Category</label>
 			<input type="text" class="categories span5"> <br/>(comma separated)
+    </div>
 
 		<div class="modal-footer">
 			<a href="#" class="btn cancel">Cancel</a>
@@ -102,8 +107,30 @@
 	</div>
 </template>
 
+<template name="comments">
+  <div class="comments">
+    {{#if comment_count}}
+      <div class="comment_count">{{comment_count}} comments</div>
+    {{else}}
+      <div class="comment_count">Add a comment.</div>
+    {{/if}}
+    {{#if currentUser}}
+      <div class="comment_list">
+        {{#each comments}}
+          {{> comment}}
+        {{/each}}
+        <div class="comment_box"><input type="text" class="comment_text"><input id='submit' class="submit_comment" type='submit'></div>
+      </div>
+    {{/if}}
+  </div>
+</template>
+
 <template name="category">
 	<div class="category">{{name}}</div>
+</template>
+
+<template name="comment">
+	<div class="comment"><div class="username">{{author_name}}</div>: "{{text}}" <div class="dateString">{{createdAtString}}</div></div>
 </template>
 
 <template name="addButton">
@@ -115,13 +142,21 @@
 
 <template name="upvote_button">
   <div>
-    <a href="#" class="upvote" data-id="{{_id}}">upvote</a>
+    {{#if upvoted}}
+      upvote
+    {{else}}
+      <a href="#" class="upvote" data-id="{{_id}}">upvote</a>
+    {{/if}}
   </div>
 </template>
 
 <template name="flag_button">
   <div>
+  {{#if flagged}}
+  	<img src="images/flag.png" title="Flagged: {{flagCount}}" />
+  {{else}}
     <a href="#" class="flag" data-id="{{_id}}">flag</a>
+  {{/if}}
   </div>
 </template>
 

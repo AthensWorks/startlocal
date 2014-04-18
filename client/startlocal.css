@@ -2,7 +2,7 @@
 
 #header {
 	background-color: white;
-    margin: 20px;
+	margin: 20px 0px;
 }
 
 body {
@@ -19,20 +19,25 @@ body {
 
 #outer {
     width: 100%;
-    margin: 0 auto;  
+    margin: 0 auto;
+}
+
+.sort_area {
+	display: inline;
 }
 
 .login {
 	position:absolute;
+	display: inline;
 	right:0px;
 	margin-right: 50px;
 }
+
 .post {
-    cursor: pointer;
     padding: 5px;
     background-color: white;
     border: 1px black solid;
-    margin: 5px;
+    margin: 5px 0px;
 }
 
 .post .name {
@@ -42,7 +47,6 @@ body {
 
 .post .upvotearea {
 	float: left;
-	height: 70px;
 	margin-left: 5px;
 	margin-right: 10px;
 }
@@ -65,6 +69,24 @@ body {
 
 .post .updated_at {
     display: inline-block;
+}
+
+.post .comments {
+		display: inline;
+		position: relative;
+		left: 56px;
+}
+
+.post .comments .comment_list {
+	display: none;
+}
+
+.comment_count:hover {
+	text-decoration: underline;
+}
+.submit_comment {
+	margin-bottom: 10px;
+	margin-left: 4px;
 }
 
 .post .categories {
@@ -91,11 +113,6 @@ body {
 	border-width: 1px;
 }
 
-.post.selected {
-    color: white;
-    background-color: black;
-}
-
 .details, .none {
     font-weight: bold;
     font-size: 2em;
@@ -106,12 +123,22 @@ body {
     padding: 10px 0px;
 }
 
-.none {
-    color: #777;
+.dateString {
+	font-size: .75em;
+	color: #777;
+	margin-top: -3px;
 }
 
-.inc {
-  cursor: pointer;
+.username {
+	background-color: #aaa;
+	color: #fff;
+	border-radius: 5px;
+	display: inline;
+	padding: 1px 3px;
+}
+
+.none {
+    color: #777;
 }
 
 .header {
@@ -131,10 +158,6 @@ body {
     background-color: #000000;
     opacity: .4;
 /*     z-index: 0; */
-}
-
-.invite-row .invite {
-    margin: 10px 10px 10px 0;
 }
 
 .description {
