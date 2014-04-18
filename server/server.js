@@ -1,3 +1,5 @@
+var Geocoder = Meteor.require("geocoder");
+
 if (Meteor.isServer) {
   Meteor.startup(function() {
     return Meteor.methods({
